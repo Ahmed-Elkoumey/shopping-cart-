@@ -1,3 +1,17 @@
+
+setTimeout(function() {
+  const status= document.querySelector('#status');
+  status.style.display = 'none';
+  const preloader = document.querySelector('#preloader');
+  preloader.style.display = 'none';
+   document.querySelector('body').style.overflow = 'visible';
+ }, 1000);
+
+//  ********************************* //
+//  ********************************* //
+//  ********************************* //
+//  ********************************* //
+
 let products = [
   {
     id: "1",
@@ -278,11 +292,3 @@ function renderDeleteEvent() {
 }
 
 renderDeleteEvent();
-
-setTimeout(function() {
- const status= document.querySelector('#status');
- status.style.display = 'none';
- const preloader = document.querySelector('#preloader');
- preloader.style.display = 'none';
-  document.querySelector('body').style.overflow = 'visible';
-}, 1000);
