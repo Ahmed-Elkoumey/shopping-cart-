@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+
+
+    <link rel="stylesheet" href="./assets/style/style.css">
+    <link rel="stylesheet" href="assets/style/break-points.css">
+</head>
+
+<body>
+<!-- Preloader --> 
+<div id="preloader">
+	<div id="status">
+		<div class="spinner">
+			  <div class="rect1"></div>
+			  <div class="rect2"></div>
+			  <div class="rect3"></div>
+			  <div class="rect4"></div>
+			  <div class="rect5"></div>
+		</div>
+	</div>
+</div>
+<!-- End Preloader -->
+
+
+
+<header class="nav-header">
+    <nav class="nav">
+        <h1>My Shopping Cart</h1>
+
+        <div class="cart-wrapper">
+            <img src="assets/images/cart-tab.svg" alt="cart-badge" class="cart-badge">
+            <span class="indicator">0</span>
+
+            <div class="cart-items">
+                <div class="cart-warrpaer">
+
+                    <ul class="list-items">
+
+
+
+                    </ul>
+                    <div class="actions-btns">
+                        <button class="delete-all">Delete All</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </nav>
+</header>
+
+
+
+
+
+    <div class="modal-wrapper ">
+
+        <div class="modal-card">
+            <div class="modal-img">
+                <img src="assets/images/1-preview.jpg" alt="">
+            </div>
+            <div class="modal-actions">
+
+                <div class="modal-content">
+                    <div class="modal-price">
+                        <p></p>
+                    </div>
+
+                    <h3 class="modal-name"></h3>
+                </div>
+
+                <div class="close-modal">
+                    <button class="add-to-cart quickview-toggle-cart" data-id="">
+                        <span>Add To Cart</span>
+                        <span class="cart-img"><img src="assets/images/cart.png" alt=""></span>
+                    </button>
+
+
+                    <button class="delete-from-cart quickview-toggle-cart" data-id="">
+                        <span>Delete From Cart</span>
+                        <span class="cart-img"><img src="assets/images/cart.png" alt=""></span>
+                    </button>
+
+                    <button class=" close-btn">
+                        <span>Close View</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="products-container"></div>
+
+
+<div class="overlay"></div>
+
+    <script src="./app/app.js"></script>
+</body>
+
+</html>
