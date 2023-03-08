@@ -1,11 +1,22 @@
 
 setTimeout(function() {
-  const status= document.querySelector('#status');
-  status.style.display = 'none';
+  const status = document.querySelector('#status');
   const preloader = document.querySelector('#preloader');
-  preloader.style.display = 'none';
-   document.querySelector('body').style.overflow = 'visible';
- }, 1000);
+  document.querySelector('body').style.overflow = 'visible';
+
+  function hideElements() {
+    status.style.display = 'none';
+    preloader.style.display = 'none';
+  }
+
+  function fadeOut() {
+    status.style.opacity = '0';
+    preloader.style.opacity = '0';
+    setTimeout(hideElements, 1000);
+  }
+
+  fadeOut();
+}, 1000);
 
 //  ********************************* //
 //  ********************************* //
@@ -129,7 +140,7 @@ const quickViewBtn = (quickViewButton) => {
     ".modal-card .quickview-toggle-cart"
   );
 
-  overlay.classList.add("active");
+  // overlay.classList.add("active");
   modalWrapper.classList.add("active");
 
   productCard.classList.contains("in-cart")
@@ -156,6 +167,11 @@ closeBtn.addEventListener("click", function () {
   modalWrapper.classList.remove("active");
   overlay.classList.remove("active");
 });
+
+modalWrapper.addEventListener('click' ,function (){
+this.classList.remove('active');
+modalWrapper.classList.remove("active");
+})
 // ******************************************//
 
 quickView.forEach((button) => {
