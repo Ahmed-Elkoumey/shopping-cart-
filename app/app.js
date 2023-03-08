@@ -140,7 +140,6 @@ const quickViewBtn = (quickViewButton) => {
     ".modal-card .quickview-toggle-cart"
   );
 
-  // overlay.classList.add("active");
   modalWrapper.classList.add("active");
 
   productCard.classList.contains("in-cart")
@@ -163,15 +162,18 @@ const quickViewBtn = (quickViewButton) => {
 
 const closeBtn = document.querySelector(".close-btn");
 
-closeBtn.addEventListener("click", function () {
+function closeModal() {
   modalWrapper.classList.remove("active");
   overlay.classList.remove("active");
-});
+}
 
-modalWrapper.addEventListener('click' ,function (){
-this.classList.remove('active');
-modalWrapper.classList.remove("active");
-})
+closeBtn.addEventListener("click", closeModal);
+
+modalWrapper.addEventListener('click', function(event) {
+  if (event.target === this) {
+    closeModal();
+  }
+});
 // ******************************************//
 
 quickView.forEach((button) => {
