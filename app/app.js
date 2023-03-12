@@ -1,27 +1,10 @@
+// vars
 
-setTimeout(function() {
-  const status = document.querySelector('#status');
-  const preloader = document.querySelector('#preloader');
-  document.querySelector('body').style.overflow = 'visible';
+const deleteAll = document.querySelector(".delete-all");
 
-  function hideElements() {
-    status.style.display = 'none';
-    preloader.style.display = 'none';
-  }
-
-  function fadeOut() {
-    status.style.opacity = '0';
-    preloader.style.opacity = '0';
-    setTimeout(hideElements, 1000);
-  }
-
-  fadeOut();
-}, 1000);
-
-//  ********************************* //
-//  ********************************* //
-//  ********************************* //
-//  ********************************* //
+const indicator = document.querySelector(".indicator");
+const cartBadge = document.querySelector(".cart-badge");
+const cartItemsList = document.querySelector(".cart-items");
 
 let products = [
   {
@@ -71,14 +54,31 @@ let products = [
 const productsContainer = document.querySelector(".products-container");
 
 const cartDropDown = document.querySelector(".list-items");
+// vars
+
+
+function preloader() {
+  const preloader = document.querySelector("#preloader");
+  setTimeout(() => preloader.classList.add("hidden"), 1000);
+  setTimeout(() => preloader.classList.add("d-none"), 1600);
+}
+preloader();
+//  ********************************* //
+//  ********************************* //
+//  ********************************* //
+//  ********************************* //
+
+
 
 function checkLocalStorage() {
-  if (!localStorage.getItem("catItems")) {
-    localStorage.setItem("catItems", JSON.stringify(products));
+  if (!localStorage.getItem("cartItems")) {
+    localStorage.setItem("cartItems", JSON.stringify(products));
   }
 }
 
+
 function renderProductCard(product) {
+
   const productCard = `
     <div class="product-card ${product.added_to_cart ? "in-cart" : ""}" id="${
     product.id
@@ -115,18 +115,17 @@ function renderUiProducts(products) {
 }
 
 checkLocalStorage();
-renderUiProducts(JSON.parse(localStorage.getItem("catItems")));
+renderUiProducts(JSON.parse(localStorage.getItem("cartItems")));
 
 // ******************************************//
 // ******************************************//
 // ******************************************//
+
 
 
 const quickView = document.querySelectorAll(".quick-view-btn");
 
 const modalWrapper = document.querySelector(".modal-wrapper");
-const overlay = document.querySelector(".overlay");
-
 
 const quickViewBtn = (quickViewButton) => {
   const { id } = quickViewButton.dataset;
@@ -159,17 +158,15 @@ const quickViewBtn = (quickViewButton) => {
   });
 };
 
-
 const closeBtn = document.querySelector(".close-btn");
 
 function closeModal() {
   modalWrapper.classList.remove("active");
-  overlay.classList.remove("active");
 }
 
 closeBtn.addEventListener("click", closeModal);
 
-modalWrapper.addEventListener('click', function(event) {
+modalWrapper.addEventListener("click", function (event) {
   if (event.target === this) {
     closeModal();
   }
@@ -186,10 +183,6 @@ quickView.forEach((button) => {
 // ******************************************//
 // ******************************************//
 
-
-const indicator = document.querySelector(".indicator");
-const cartBadge = document.querySelector(".cart-badge");
-const cartItemsList = document.querySelector(".cart-items");
 
 cartBadge.addEventListener("click", function () {
   cartItemsList.classList.toggle("active");
@@ -213,25 +206,22 @@ function createDropdoawnElement(item) {
   renderDeleteEvent();
 }
 
-JSON.parse(localStorage.getItem("catItems")).forEach((item) => {
+JSON.parse(localStorage.getItem("cartItems")).forEach((item) => {
   item.added_to_cart && createDropdoawnElement(item);
 });
 
-const purchase = document.querySelector(".purchase");
-const deleteAll = document.querySelector(".delete-all");
-
 deleteAll.addEventListener("click", () => {
   localStorage.setItem(
-    "catItems",
+    "cartItems",
     JSON.stringify(
-      JSON.parse(localStorage.getItem("catItems")).map((item) => {
+      JSON.parse(localStorage.getItem("cartItems")).map((item) => {
         item.added_to_cart = false;
         return item;
       })
     )
   );
   cartDropDown.innerHTML = "";
-  indicator.innerHTML = 0;
+  indicator.textContent = 0;
   document.querySelectorAll(".product-card.in-cart").forEach((card) => {
     card.classList.remove("in-cart");
   });
@@ -244,7 +234,7 @@ deleteAll.addEventListener("click", () => {
 // ******************************************************* //
 
 function handelAddOrDelete(action, btn, modal = false) {
-  const cartProducts = JSON.parse(localStorage.getItem("catItems"));
+  const cartProducts = JSON.parse(localStorage.getItem("cartItems"));
 
   const { id } = btn.dataset;
 
@@ -264,11 +254,16 @@ function handelAddOrDelete(action, btn, modal = false) {
     }
     productCard.classList.remove("in-cart");
     choosedProduct.added_to_cart = false;
-    document.querySelector(`.dropdown-item[data-id='${id}']`).remove();
+    const dropdownItem = document.querySelector(
+      `.dropdown-item[data-id='${id}']`
+    );
+    if (dropdownItem !== null) {
+      dropdownItem.remove();
+    }
     indicator.innerHTML = cartDropDown.children.length;
   }
 
-  localStorage.setItem("catItems", JSON.stringify(cartProducts));
+  localStorage.setItem("cartItems", JSON.stringify(cartProducts));
 }
 
 function toggleCart(btn) {
@@ -293,17 +288,22 @@ function quickviewToggleCart(btn) {
   handelAddOrDelete(action, btn, true);
 }
 
+
+
+function renderQuickViewBtn() {
 document.querySelectorAll(".quickview-toggle-cart").forEach((btn) => {
   btn.addEventListener("click", function () {
     quickviewToggleCart(this);
   });
 });
+}
+
+renderQuickViewBtn();
+
 
 function renderDeleteEvent() {
-
   document.querySelectorAll(".delete-cart-item").forEach((deleteBtn) => {
     deleteBtn.addEventListener("click", function () {
-
       handelAddOrDelete("delete", this);
     });
   });

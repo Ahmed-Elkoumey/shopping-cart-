@@ -39,7 +39,7 @@ body{
 	background-color: #1e2e59;
     z-index:99999;
     transition: all 1s ease-in-out;
-    opacity: 1;
+
 
 }
 
@@ -55,6 +55,14 @@ body{
 	margin:-100px 0 0 -100px; 
 }
 
+.hidden {
+  opacity: 0;
+}
+
+.d-none{
+  transition-delay: 1s;
+  display: none;
+}
 
 
 .spinner {
