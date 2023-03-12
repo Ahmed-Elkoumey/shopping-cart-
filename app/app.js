@@ -233,45 +233,44 @@ deleteAll.addEventListener("click", () => {
 // ******************************************************* //
 // ******************************************************* //
 
-function handelAddOrDelete(action, btn, modal = false) {
+function handleAddOrDelete(action, btn, modal = false) {
   const cartProducts = JSON.parse(localStorage.getItem("cartItems"));
-
   const { id } = btn.dataset;
-
-  const choosedProduct = cartProducts.find((item) => item.id === id);
+  const chosenProductIndex = cartProducts.findIndex((item) => item.id === id);
+  const chosenProduct = cartProducts[chosenProductIndex];
   const productCard = document.getElementById(`${id}`);
+  const dropdownItem = document.querySelector(`.dropdown-item[data-id='${id}']`);
+
+  const toggleInCartClass = (toggle) => {
+    productCard.classList.toggle("in-cart", toggle);
+    if (modal) {
+      btn.closest(".modal-card").classList.toggle("in-cart", toggle);
+    }
+  };
 
   if (action === "add") {
-    if (modal) {
-      btn.closest(".modal-card").classList.add("in-cart");
-    }
-    productCard.classList.add("in-cart");
-    choosedProduct.added_to_cart = true;
-    createDropdoawnElement(choosedProduct);
+    toggleInCartClass(true);
+    chosenProduct.added_to_cart = true;
+    createDropdoawnElement(chosenProduct);
   } else if (action === "delete") {
-    if (modal) {
-      btn.closest(".modal-card").classList.remove("in-cart");
-    }
-    productCard.classList.remove("in-cart");
-    choosedProduct.added_to_cart = false;
-    const dropdownItem = document.querySelector(
-      `.dropdown-item[data-id='${id}']`
-    );
-    if (dropdownItem !== null) {
+    toggleInCartClass(false);
+    chosenProduct.added_to_cart = false;
+    if (dropdownItem) {
       dropdownItem.remove();
     }
-    indicator.innerHTML = cartDropDown.children.length;
   }
 
   localStorage.setItem("cartItems", JSON.stringify(cartProducts));
+  indicator.innerHTML = cartDropDown.children.length;
 }
+
 
 function toggleCart(btn) {
   let action = btn.closest(".product-card").classList.contains("in-cart")
     ? "delete"
     : "add";
 
-  handelAddOrDelete(action, btn);
+    handleAddOrDelete(action, btn);
 }
 
 document.querySelectorAll(".toggle-cart").forEach((btn) => {
@@ -285,7 +284,7 @@ function quickviewToggleCart(btn) {
     ? "delete"
     : "add";
 
-  handelAddOrDelete(action, btn, true);
+    handleAddOrDelete(action, btn, true);
 }
 
 
@@ -304,7 +303,7 @@ renderQuickViewBtn();
 function renderDeleteEvent() {
   document.querySelectorAll(".delete-cart-item").forEach((deleteBtn) => {
     deleteBtn.addEventListener("click", function () {
-      handelAddOrDelete("delete", this);
+      handleAddOrDelete("delete", this);
     });
   });
 }
